@@ -1,5 +1,5 @@
 '''
-Created on 16 déc. 2016
+Created on 16 dec. 2016
 
 @author: remi
 '''

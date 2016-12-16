@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 from matplotlib import pyplot as plt
-
+#ancien fichier tres moche avant la modularisation du code
 MIN_MATCH_COUNT = 10
 
 #imagesdebasetest
