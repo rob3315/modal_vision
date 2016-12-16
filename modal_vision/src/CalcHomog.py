@@ -43,17 +43,13 @@ class CalcHomog(object):
             dst_pts12 = np.float32([ kp1[m.trainIdx].pt for m in good12 ]).reshape(-1,1,2)
             M12, mask12 = cv2.findHomography(src_pts12, dst_pts12, cv2.RANSAC,5.0)
             matchesMask12 = mask12.ravel().tolist()
+            self.path.add_homography(M12)
         #SINON
             ######################################A FAIRE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
         #la classe Path va s'updater
-        path.add_homography(homography)
         
         return
-    
-    def 
-        
-        
     def get_path(self):
         return self.path
     
