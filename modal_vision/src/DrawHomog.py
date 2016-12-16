@@ -9,9 +9,11 @@ class DrawHomog(object):
         self.H = hmax-hmin
         self.W = wmax-wmin
         self.trans = -hmin, -wmin
+        self.calcHomog = calcHomog
         
         
-    def drawFinal(self):
+    def drawFinal(self, ):
         im_finale = np.zeros((self.H,self.W), np.uint8)
+        
     
         
