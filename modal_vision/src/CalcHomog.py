@@ -19,7 +19,7 @@ class CalcHomog(object):
         self.flann = cv2.FlannBasedMatcher(index_params, search_params)
         
         #infos suppl.
-        self.h,self.w=firstImage.shape()
+        self.h,self.w=firstImage.shape
 
         #contiendra le chemin
         self.path=Path(self.h, self.w)
@@ -46,10 +46,9 @@ class CalcHomog(object):
             self.path.add_homography(M12)
         #SINON
             ######################################A FAIRE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            
-        #la classe Path va s'updater
-        
         return
+        
+        
+        
     def get_path(self):
         return self.path
-    
