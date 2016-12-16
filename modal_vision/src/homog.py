@@ -54,13 +54,17 @@ if len(good23)>MIN_MATCH_COUNT:
     
     
 #ASSEMBLAGE
+    im_dst = np.zeros((900,900), np.uint8)    
+    
     h,w=img1.shape #toutes meme taille ?
     coinHautDroit = (w,0,1)
     coinBasDroit = (w,h,1)
     finalCoinHautDroit = np.dot(M12, coinHautDroit)
     finalCoinBasDroit = np.dot(M12, coinBasDroit)
     
-    im_dst = cv2.warpPerspective(img2, M12, (900,900))
+    #im_dst[0:h, 0:w]=img1/2
+    
+    cv2.warpPerspective(img2, M12, (900,900), im_dst)
     
     x,y,z=finalCoinHautDroit
     print(finalCoinHautDroit)
@@ -70,16 +74,14 @@ if len(good23)>MIN_MATCH_COUNT:
     im_dst[y:y+3,x:x+3]=255
     
     
-    #im_dst[0:h, 0:w]=img1
-    
     
     cv2.imshow('Image', im_dst)
 
-    h,w = img1.shape
-    pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
-    dst = cv2.perspectiveTransform(pts,M12)
-
-    img2 = cv2.polylines(img2,[np.int32(dst)],True,255,3, cv2.LINE_AA)
+#    h,w = img1.shape
+#    pts = np.float32([ [0,0],[0,h-1],[w-1,h-1],[w-1,0] ]).reshape(-1,1,2)
+#    dst = cv2.perspectiveTransform(pts,M12)
+#
+#    img2 = cv2.polylines(img2,[np.int32(dst)],True,255,3, cv2.LINE_AA)
 
 else:
     print "Not enough matches are found - %d/%d" % (len(good12),MIN_MATCH_COUNT)
@@ -90,5 +92,6 @@ draw_params = dict(matchColor = (0,255,0), # draw matches in green color
                    flags = 2)
                   
 
-cv2.waitKey(0)
+cv2.waitKey(5000)
 cv2.destroyAllWindows()
+print("the end")
