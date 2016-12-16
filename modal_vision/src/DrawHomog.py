@@ -11,7 +11,7 @@ class DrawHomog(object):
         self.trans = -hmin, -wmin
         
         
-    def drawFinal():
-        im_finale = np.zeros((H,W), np.uint8)
+    def drawFinal(self):
+        im_finale = np.zeros((self.H,self.W), np.uint8)
     
         
