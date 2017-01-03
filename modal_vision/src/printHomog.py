@@ -10,13 +10,9 @@ class PrintHomog(object):
     '''
 
 
-    def __init__(self,):
+    def __init__(self, params):
         '''
         Constructor
         '''
         
-    def get_list_image(self):
-        return
-    def get_list_image_from_file(self):
-        return
-    
+    def 

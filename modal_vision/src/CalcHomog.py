@@ -11,9 +11,7 @@ class CalcHomog(object):
     def __init__(self, firstImage):
         
         #SIFT and KTREE
-        #Pour PA
         #self.sift =  cv2.xfeatures2d.SIFT_create()
-        #Pour moi
         self.sift =  cv2.SIFT()
         FLANN_INDEX_KDTREE = 0
         self.MIN_MATCH_COUNT = 10

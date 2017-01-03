@@ -21,6 +21,7 @@ class Path(object):
     
     def add_homography(self,homography):
         h,w=self.h,self.w
+        # le calque pour afficher correctement
         homo=np.dot(self.listHomography[-1],homography) #composition of the nth homography
         self.listHomography.append(homo)
         new_corner=np.array(map(lambda c:np.dot(homo,c),[[0,0,1],[w-1,0,1],[w-1,h-1,1],[0,h-1,1]]))
