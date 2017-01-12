@@ -28,19 +28,13 @@ class DrawHomog(object):
             lst_calques.append(cv2.warpPerspective(first_calque, np.dot(self.Mtrans, self.calcHomog.path.listHomography[i]), (self.W,self.H)))
             list_img_distorted.append(cv2.warpPerspective(list_img[i], np.dot(self.Mtrans, self.calcHomog.path.listHomography[i]), (self.W,self.H)))
         for i in range(len(list_img_distorted)):    
-            im_finale += (list_img_distorted[i]/2)
             im_calque+=lst_calques[i]
         for i in range(self.H):
             for j in range(self.W):
                 im_calque[i][j]=max(1,im_calque[i][j])
+        for i in range(len(list_img_distorted)): 
+            im_finale += (list_img_distorted[i]/im_calque)
         #im_calque=np.reshape(map(lambda t:max(1,t),np.fromiter(im_calque)),(self.H,self.W))
-        im_finale=im_finale/im_calque
-        im_finale=im_finale*2
-        print(im_calque)
 
-
+        cv2.imwrite("/Users/remi/Desktop/couleur.png",im_finale)
         cv2.imshow("Image", im_finale)
-        
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-print("the end")

@@ -26,11 +26,11 @@ class Path(object):
         self.listHomography.append(homo)
         new_corner=np.array(map(lambda c:np.dot(homo,c),[[0,0,1],[w-1,0,1],[w-1,h-1,1],[0,h-1,1]]))
         new_corner=map(lambda x : x/x[2],new_corner)
-        print(new_corner)
+        #print(new_corner)
         hm=int(min(min(map(lambda x : x[1],new_corner)),self.corners[2]))
         hM=int(max(max(map(lambda x : x[1],new_corner)),self.corners[3]))
         wm=int(min(min(map(lambda x : x[0],new_corner)),self.corners[0]))
         wM=int(max(max(map(lambda x : x[0],new_corner)),self.corners[1]))
         self.corners=[wm,wM,hm,hM]
-        print("corner",self.corners)
+        #print("corner",self.corners)
         return

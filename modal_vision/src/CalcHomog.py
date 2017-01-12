@@ -45,7 +45,8 @@ class CalcHomog(object):
             M12, mask12 = cv2.findHomography(src_pts12, dst_pts12, cv2.RANSAC,5.0)
             matchesMask12 = mask12.ravel().tolist()
             self.path.add_homography(M12)
-        #SINON
+        else :
+            print "error, not enough matches"
             ######################################A FAIRE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         return
         

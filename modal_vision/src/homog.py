@@ -67,7 +67,7 @@ if len(good23)>MIN_MATCH_COUNT:
     cv2.warpPerspective(img2, M12, (900,900), im_dst)
     
     x,y,z=finalCoinHautDroit
-    print(finalCoinHautDroit)
+    #print(finalCoinHautDroit)
     x,y=x/z,y/z
     #print(im_dst)
     
