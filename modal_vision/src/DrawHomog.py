@@ -35,6 +35,6 @@ class DrawHomog(object):
         for i in range(len(list_img_distorted)): 
             im_finale += (list_img_distorted[i]/im_calque)
         #im_calque=np.reshape(map(lambda t:max(1,t),np.fromiter(im_calque)),(self.H,self.W))
-
+                
         cv2.imwrite("/Users/remi/Desktop/couleur.png",im_finale)
         cv2.imshow("Image", im_finale)

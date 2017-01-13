@@ -19,16 +19,27 @@ def main():
         list_f_img = f.readlines()
         list_f_img = [line.split(' ') for line in list_f_img]
     #list_f_img = ["img/"+x[0][:-1] for x in list_f_img]
+    list_f_img=list_f_img[1:]
     list_f_depth = []
     list_f_img = [path+"image/"+x[0][:-1] for x in list_f_img]
     for a in list_f_img:
         list_f_depth.append(find_depth(path+"depth/", a))
-    list_f_img=list_f_img[:]
-    list_img = [cv2.imread(x,0) for x in list_f_img]
+    print(list_f_depth)
+    print(list_f_img)
+    list_img_brut = [cv2.imread(x,0) for x in list_f_img]
+    list_img=[]
+    print('a',len(list_img_brut))
+    for a in list_img_brut:
+        list_img.append(cv2.resize(a,(480,360)))
+        print('a',len(list_img))
     list_depth=[cv2.imread(x,cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH) for x in list_f_depth]
-    for a in list_depth:
-        plt.imshow(np.array(a))
-        plt.show()
+#     for i in range(len(list_img)):
+#         print(i)
+#         plt.figure(1)
+#         plt.imshow(list_img[i])
+#         plt.figure(2)
+#         plt.imshow(list_depth[i])
+#         plt.show()
     
     calcHomog = CalcHomog(list_img[0])
     
@@ -40,13 +51,15 @@ def main():
     drawHomog = DrawHomog(calcHomog)
     drawHomog.drawFinal(list_img)
     drawDepth = DrawDepth(calcHomog)
-    drawDepth.drawFinal(list_img)
-    cv2.waitKey(0)
+    #for h in calcHomog.path.listHomography:
+        #print(drawDepth.cameraPoseFromHomography(h))
+    drawDepth.drawFinal(list_depth)
+    #cv2.waitKey(0)
 
 def find_depth(path,colorfile):
     """file : name of the image.jpg, path : repository of the depth image"""
     filenames_depth=glob.glob(path+"*")
-    ts_rgb = int(colorfile.split("-")[-1].split(".")[0])
+    ts_rgb = int(colorfile.split("-")[-1].split(".")[0])/2
     result=""
     ts_depth_closest = 0
     for id_img_depth,filename_depth in enumerate(filenames_depth):
