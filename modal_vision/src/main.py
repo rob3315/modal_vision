@@ -14,8 +14,8 @@ import sys, glob, copy
 def main():
     
     #with open(os.getcwd()+"/liste.txt") as f:
-    path = "/Users/remi/workspace/dataset_slam_vertical/modalSLAM/seq2/"
-    with open(path+"liste.txt") as f:
+    path = "/Users/remi/workspace/dataset_slam_vertical/modalSLAM/seq3/"
+    with open(path+"liste1.txt") as f:
         list_f_img = f.readlines()
         list_f_img = [line.split(' ') for line in list_f_img]
     #list_f_img = ["img/"+x[0][:-1] for x in list_f_img]
@@ -24,22 +24,15 @@ def main():
     list_f_img = [path+"image/"+x[0][:-1] for x in list_f_img]
     for a in list_f_img:
         list_f_depth.append(find_depth(path+"depth/", a))
-    print(list_f_depth)
-    print(list_f_img)
     list_img_brut = [cv2.imread(x,0) for x in list_f_img]
+    list_img_c_brut=[cv2.imread(x,1) for x in list_f_img]
+    list_img_c=[]
     list_img=[]
-    print('a',len(list_img_brut))
     for a in list_img_brut:
         list_img.append(cv2.resize(a,(480,360)))
-        print('a',len(list_img))
+    for b in list_img_c_brut:
+        list_img_c.append(cv2.resize(b,(480,360)))
     list_depth=[cv2.imread(x,cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH) for x in list_f_depth]
-#     for i in range(len(list_img)):
-#         print(i)
-#         plt.figure(1)
-#         plt.imshow(list_img[i])
-#         plt.figure(2)
-#         plt.imshow(list_depth[i])
-#         plt.show()
     
     calcHomog = CalcHomog(list_img[0])
     
@@ -49,7 +42,7 @@ def main():
     for i in range(len(list_img)-1):
         calcHomog.addImage(list_img[i], list_img[i+1])
     drawHomog = DrawHomog(calcHomog)
-    drawHomog.drawFinal(list_img)
+    drawHomog.drawFinal(list_img_c)
     drawDepth = DrawDepth(calcHomog)
     #for h in calcHomog.path.listHomography:
         #print(drawDepth.cameraPoseFromHomography(h))

@@ -17,9 +17,11 @@ class DrawHomog(object):
         
         
     def drawFinal(self,list_img):
-        im_finale = np.zeros((self.H,self.W), np.uint8)
+        im_finale_0 = np.zeros((self.H,self.W), np.uint8)
+        im_finale_1 = np.zeros((self.H,self.W), np.uint8)
+        im_finale_2 = np.zeros((self.H,self.W), np.uint8)
         im_calque = np.zeros((self.H,self.W), np.uint8)
-        first_calque=np.ones((list_img[0].shape),np.uint8)
+        first_calque=np.ones((list_img[0].shape[:2]),np.uint8)
         lst_calques=[]
         list_img_distorted=[]
         n=len(list_img)
@@ -33,8 +35,15 @@ class DrawHomog(object):
             for j in range(self.W):
                 im_calque[i][j]=max(1,im_calque[i][j])
         for i in range(len(list_img_distorted)): 
-            im_finale += (list_img_distorted[i]/im_calque)
+            im_finale_0 += (list_img_distorted[i][:,:,0]/im_calque)
+            im_finale_1 += (list_img_distorted[i][:,:,1]/im_calque)
+            im_finale_2 += (list_img_distorted[i][:,:,2]/im_calque)
+        im_finale=np.zeros((self.H,self.W,3))
+        im_finale[:,:,0]=im_finale_0/255.
+        im_finale[:,:,1]=im_finale_1/255.
+        im_finale[:,:,2]=im_finale_2/255.
+        print(im_finale)
         #im_calque=np.reshape(map(lambda t:max(1,t),np.fromiter(im_calque)),(self.H,self.W))
                 
-        cv2.imwrite("/Users/remi/Desktop/couleur.png",im_finale)
+        plt.imsave("/Users/remi/Desktop/couleur.jpg",im_finale)
         cv2.imshow("Image", im_finale)

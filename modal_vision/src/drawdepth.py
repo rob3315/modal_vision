@@ -9,6 +9,7 @@ import cv2
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
 import matplotlib.pyplot as plt
+from plot3D import *
 
 class DrawDepth(object):
     '''
@@ -34,34 +35,25 @@ class DrawDepth(object):
             return np.append(rotation,np.transpose(translation),axis=1)
         else : print " not close to a similitude"   
     def cameraPoseFromHomography(self,H):
-    
-        pose = np.eye(3, 4)  # 3x4 matrix, the camera pose
-        norm1 = np.linalg.norm(H[:, 0])  
-        norm2 = np.linalg.norm(H[:, 1])  
-        tnorm = (norm1 + norm2) / 2;  # Normalization value
-    
-        p1 = H[:, 0]  # Pointer to first column of H
-        p2 = pose[:, 0]  # Pointer to first column of pose (empty)
-        #cv2.normalize(p1, p2);  # Normalize the rotation, and copies the column to pose
-    
-        p1 = H[:1]  # Pointer to second column of H
-        p2 = pose[:, 1]  # Pointer to second column of pose (empty)
-    
-        #cv2.normalize(p1, p2);  # Normalize the rotation and copies the column to pose
-    
-        p1 = pose[:, 0]
-        p2 = pose[:, 1]
-    
-        p3 = np.cross(p1, p2)  # Computes the cross-product of p1 and p2
-        c2 = pose[:, 2]  # Pointer to third column of pose
-        p3.copyTo(c2)  # Third column is the crossproduct of columns one and two
-    
-        pose[:, 3] = H[:, 2] / tnorm;  # vector t [R|t] is the last column of pose
-        
-        return pose
+        print(H)
+        U,s,Vt=np.linalg.svd(H)
+        print(U,s,Vt)
+        V=np.transpose(Vt)
+        S=np.array([[1-s[1]**2,1-s[0]**2,0],[1,1,1],[1-s[2]**2,0,1-s[0]**2]])
+        N=np.linalg.solve(S,np.array([0,1,0]))
+        print(N)
+        N=np.sqrt(N)
+        stheta=(s[0]-s[2])*N[0]*N[2] % (2*np.pi)
+        ctheta=(s[1]**2-s[0]*s[2])/((s[0]+s[2])*s[1])
+        if stheta>0:
+            theta=np.arccos(ctheta)
+        else:
+            theta=np.pi+np.arccos(ctheta)
+        return
 
  
     def drawFinal(self,list_img):
+        self.cameraPoseFromHomography(self.calcHomog.path.listHomography[1])
         im_finale = np.zeros((self.H,self.W), np.uint16)
         im_calque = np.zeros((self.H,self.W), np.uint16)
         lst_calques=[]
@@ -88,6 +80,7 @@ class DrawDepth(object):
 #                     im_finale[i][j]=500
         #im_calque=np.reshape(map(lambda t:max(1,t),np.fromiter(im_calque)),(self.H,self.W))
         cv2.imwrite("/Users/remi/Desktop/profondeur.png",im_finale)
-        plt.imshow(np.array(im_finale))
-        plt.show()
+        #plt.imshow(np.array(im_finale))
+        #plt.show()
+        affiche3D(im_finale, 10)
         #cv2.imshow("Depth", im_finale)

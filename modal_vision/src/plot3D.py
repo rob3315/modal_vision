@@ -1,4 +1,4 @@
-from matplotlib import pyplot
+import matplotlib.pyplot as plt
 import pylab
 from mpl_toolkits.mplot3d import Axes3D
 import random
@@ -6,26 +6,19 @@ import random
 import cv2
 import pylab
 
-img = cv2.imread("depth_2.png", cv2.IMREAD_ANYCOLOR | cv2.IMREAD_ANYDEPTH)
-
-
-
-fig = pylab.figure()
-ax = Axes3D(fig)
-
-X = []
-Y = []
-Z = []
-
-
-for i in range(360):
-    for j in range(480):
-        if img[i][j]!=0:
-            X.append(i)
-            Y.append(j)
-            Z.append(img[i][j])
-            
-print(X,Y,Z)
-
-ax.scatter(X, Y, Z)
-pyplot.show()
+def affiche3D(img, espacement):
+    fig = pylab.figure()
+    ax = Axes3D(fig)
+    plt.axis("equal")
+    X = []
+    Y = []
+    Z = []
+    for i in range(img.shape[0]):
+        for j in range(img.shape[1]):
+            if i%espacement==0 and j%espacement==0:
+                if img[i][j]!=0:
+                    X.append(i)
+                    Y.append(j)
+                    Z.append(-img[i][j])
+    ax.scatter(X, Y, Z)
+    plt.show()
