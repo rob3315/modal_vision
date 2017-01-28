@@ -1,8 +1,4 @@
-q'''
-Created on 2 dec. 2016
 
-@author: remi
-'''
 import numpy as np
 import cv2
 import matplotlib.pyplot as plt
@@ -72,6 +68,7 @@ def drawMatches(img1, kp1, img2, kp2, matches):
 
 
     # Show the image
+    cv2.imwrite("/Users/remi/Documents/2A/modal_rapport/imgmatch.png",out)
     cv2.imshow('Matched Features', out)
     cv2.waitKey(0)
     cv2.destroyWindow('Matched Features')
@@ -79,42 +76,44 @@ def drawMatches(img1, kp1, img2, kp2, matches):
     # Also return the image if you'd like a copy
     return out
 
-img1 = cv2.imread("/Users/remi/workspace/dataset_slam_vertical/image/0002872-000004781872.jpg",0)
-img2 = cv2.imread("/Users/remi/workspace/dataset_slam_vertical/image/0002884-000004801858.jpg",0)    
-h=img2.shape[1]
-w=img2.shape[0]
+img1 = cv2.imread("/Users/remi/Documents/2A/modal_rapport/cropped-x.jpg",0)
+#img2 = cv2.imread("/Users/remi/workspace/dataset_slam_vertical/image/0002884-000004801858.jpg",0)    
+#h=img2.shape[1]
+#w=img2.shape[0]
 #img1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)      # queryImage
 # Initiate SIFT detector
-orb = cv2.ORB()
-cv2.imshow("img1",img1)
+#orb = cv2.ORB()
+#cv2.imshow("img1",img1)
 
 # find the keypoints and descriptors with SIFT
-kp1, des1 = orb.detectAndCompute(img1,None)
-kp2, des2 = orb.detectAndCompute(img2,None)
+#kp1, des1 = orb.detectAndCompute(img1,None)
+#kp2, des2 = orb.detectAndCompute(img2,None)
 # create BFMatcher object
-bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+#bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
 # Match descriptors.
-matches = bf.match(des1,des2)
-# Sort them in the order of their distance.
-matches = sorted(matches, key = lambda x:x.distance)
+#matches = bf.match(des1,des2)
+## Sort them in the order of their distance.
+#matches = sorted(matches, key = lambda x:x.distance)
 # Draw first 10 matches.
-img3 = drawMatches(img1,kp1,img2,kp2,matches[:10])
-src_pts = np.float32([ kp1[m.queryIdx].pt for m in matches[:10] ]).reshape(-1,1,2)
-dst_pts = np.float32([ kp2[m.trainIdx].pt for m in matches[:10] ]).reshape(-1,1,2)
+#img3 = drawMatches(img1,kp1,img2,kp2,matches[:10])
+#src_pts = np.float32([ kp1[m.queryIdx].pt for m in matches[:10] ]).reshape(-1,1,2)
+#dst_pts = np.float32([ kp2[m.trainIdx].pt for m in matches[:10] ]).reshape(-1,1,2)
 #print("hi")
-M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
+#M, mask = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC,5.0)
 #img3=cv2.warpPerspective(img1, M,(img1.shape[1],img1.shape[0]))
-print(M,mask)
-cv2.imshow("img3",img3)
-cv2.imshow("img2",img2)
-superposition = np.zeros((w,h,3), np.uint8)
-for i in range(w):
-    for j in range(h):
+#print(M,mask)
+#cv2.imshow("img3",img3)
+#cv2.imshow("img2",img2)
+#superposition = np.zeros((w,h,3), np.uint8)
+#for i in range(w):
+#    for j in range(h):
         #print(img2[i][j])
         #print(img3[i][j])
-        superposition[i][j]=[img2[i][j],0,img3[i][j]]
-cv2.imshow("sup",superposition) 
-cv2.imwrite("/Users/remi/Documents/2A/modal_rapport/imgmatch.png",img3)
-#cv2.imwrite("/Users/remi/Documents/2A/modal_rapport/superposition.png",superposition)
+#        superposition[i][j]=[img2[i][j],0,img3[i][j]]
+h=np.array([[1.,0.,1.2],[0.5,1.,1.4],[0.,0.001,1.]])
+img2=cv2.warpPerspective(img1,h,(2000,1000))
+cv2.imshow("sup",img2) 
+#cv2.imwrite("/Users/remi/Documents/2A/modal_rapport/imgmatch.png",oim)
+cv2.imwrite("/Users/remi/Documents/2A/modal_rapport/cropped-xh.jpg",img2)
 
 cv2.waitKey(0)

@@ -42,7 +42,7 @@ class DrawHomog(object):
         im_finale[:,:,0]=im_finale_0/255.
         im_finale[:,:,1]=im_finale_1/255.
         im_finale[:,:,2]=im_finale_2/255.
-        print(im_finale)
+        #print(im_finale)
         #im_calque=np.reshape(map(lambda t:max(1,t),np.fromiter(im_calque)),(self.H,self.W))
                 
         plt.imsave("/Users/remi/Desktop/couleur.jpg",im_finale)
